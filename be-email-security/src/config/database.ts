@@ -6,8 +6,7 @@ class Database {
 
   private constructor() {
     const config: PoolConfig = {
-      connectionString:
-        "postgresql://postgres.cmhdthgwxakoosngeofn:wsU1b9b1gsLajHTZ@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres",
+      connectionString: process.env.DATABASE_URL,
       ssl:
         process.env.NODE_ENV === "production"
           ? { rejectUnauthorized: false }

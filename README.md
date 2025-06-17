@@ -121,6 +121,15 @@ or you can try register new user using swagger docs
 - Test history and session management
 - Responsive dark mode design
 
+## 🎥 Demo Videos
+
+The following demonstration videos showcase the implemented features:
+
+- **Login**: ![Login Demo](docs/login.gif)
+- **Add new domain**: ![Add New Domain Demo](docs/new-domain.gif)
+- **Run test**: ![Run Test Demo](docs/run-test.gif)
+- **Dashboard**: ![Dashboard](docs/dashboard.png)
+
 ---
 
 Built with ❤️ by Coco 🥥
