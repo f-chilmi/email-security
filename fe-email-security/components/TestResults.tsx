@@ -1,10 +1,13 @@
 "use client";
-import ScoreRing from "./ScoreRing";
 
-interface TestResultsProps {
-  session: any;
-  results: any[];
-}
+import {
+  DMARCData,
+  MailServerData,
+  SPFData,
+  TestResultData,
+  TestResultsProps,
+} from "@/lib/types";
+import ScoreRing from "./ScoreRing";
 
 export default function TestResults({ session, results }: TestResultsProps) {
   const getStatusColor = (status: string) => {
@@ -18,6 +21,12 @@ export default function TestResults({ session, results }: TestResultsProps) {
     }
   };
 
+  const isDMARCData = (data: TestResultData): data is DMARCData =>
+    "policy" in data;
+  const isSPFData = (data: TestResultData): data is SPFData => "record" in data;
+  const isMailServerData = (data: TestResultData): data is MailServerData =>
+    "mxRecords" in data;
+
   return (
     <div className="space-y-6">
       {/* Overall Score */}
@@ -27,9 +36,9 @@ export default function TestResults({ session, results }: TestResultsProps) {
         </h2>
         <ScoreRing score={session.overallScore || 0} size="lg" />
         <p className="text-gray-300 mt-4">
-          {session.overallScore >= 80
+          {(session.overallScore ?? 0) >= 80
             ? "Excellent security configuration"
-            : session.overallScore >= 60
+            : (session.overallScore ?? 0) >= 60
             ? "Good security, some improvements needed"
             : "Poor security, immediate action required"}
         </p>
@@ -89,15 +98,23 @@ export default function TestResults({ session, results }: TestResultsProps) {
                   Details:
                 </h4>
                 <div className="text-white/70 text-xs space-y-1">
-                  {result.testType === "DMARC" && result.resultData.policy && (
-                    <div>Policy: {result.resultData.policy}</div>
-                  )}
-                  {result.testType === "SPF" && result.resultData.record && (
-                    <div className="break-all">
-                      Record: {result.resultData.record}
-                    </div>
-                  )}
+                  {result.testType === "DMARC" &&
+                    result.resultData &&
+                    isDMARCData(result.resultData) &&
+                    result.resultData.policy && (
+                      <div>Policy: {result.resultData.policy}</div>
+                    )}
+                  {result.testType === "SPF" &&
+                    result.resultData &&
+                    isSPFData(result.resultData) &&
+                    result.resultData.record && (
+                      <div className="break-all">
+                        Record: {result.resultData.record}
+                      </div>
+                    )}
                   {result.testType === "MAIL_SERVER" &&
+                    result.resultData &&
+                    isMailServerData(result.resultData) &&
                     result.resultData.mxRecords && (
                       <div>
                         MX Records: {result.resultData.mxRecords.join(", ")}
