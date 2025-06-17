@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+:root {
+  --primary: #ffffff; /* White */
+  --secondary: #f8fafc; /* Very light gray */
+  --accent: #e2e8f0; /* Light gray */
+  --neutral: #64748b; /* Medium gray */
+  --dark: #334155; /* Dark gray */
+  --black: #0f172a; /* Almost black */
+}
+
+body {
+  background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+}
